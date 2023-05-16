@@ -1,31 +1,35 @@
 const express = require('express');
-const productRoutes = require('../api/products');
-const cartRoutes = require('../api/carts');
+const http = require('http');
+const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');
+const productRoutes = require('../routes/productRoutes');
+const cartRoutes = require('../routes/cartRoutes');
+const socketManager = require('../utils/socketManager');
 
 const app = express();
 app.use(express.json());
 
-const exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
-// Aquí definimos la ruta base para los productos y carritos.
+// Rutas de productos y carritos
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 
-// Incluir la configuración de websockets
-const server = app.listen(8080, () => console.log('Server running on port 8080'));
-const io = require('socket.io')(server);
+// Crear el servidor HTTP
+const server = http.createServer(app);
 
-// Inicializar websockets en el router de productos
-productRoutes.initializeWebSocket(server);
+// Conexión a la base de datos MongoDB
+mongoose.connect('mongodb+srv://lautarodubravka:I1hoszNfQu74N0e5@app-videogames.bmtnzim.mongodb.net/?retryWrites=true&w=majority', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-// Manejar la conexión de un cliente
-io.on('connection', (socket) => {
-  console.log('Cliente conectado');
+// Inicializar el gestor de sockets
+socketManager.initialize(server);
 
-  // Manejar la desconexión de un cliente
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
-  });
+// Puerto de escucha
+const port = process.env.PORT || 8080;
+server.listen(port, () => {
+  console.log(`Servidor ejecutándose en el puerto ${port}`);
 });

@@ -1,7 +1,9 @@
 const fs = require('fs').promises;
+const EventEmitter = require('events');
 
-class ProductManager {
+class ProductManager extends EventEmitter {
     constructor(path) {
+        super();
         this.path = path;
     }
 
@@ -21,8 +23,10 @@ class ProductManager {
     addProduct = async (product) => {
         const products = await this.readProducts();
         const id = products.length ? products[products.length - 1].id + 1 : 1;
-        products.push({ id, ...product });
+        product.id = id;
+        products.push(product);
         await this.writeProducts(products);
+        this.emit('productCreated', product);
     }
 
     getProducts = async () => {
@@ -39,8 +43,10 @@ class ProductManager {
         const index = products.findIndex(product => product.id === id);
 
         if (index !== -1) {
-            products[index] = { ...products[index], ...updatedProduct, id };
+            updatedProduct.id = products[index].id;
+            products[index] = updatedProduct;
             await this.writeProducts(products);
+            this.emit('productUpdated', updatedProduct);
         }
     }
 
@@ -48,31 +54,8 @@ class ProductManager {
         const products = await this.readProducts();
         const updatedProducts = products.filter(product => product.id !== id);
         await this.writeProducts(updatedProducts);
+        this.emit('productDeleted', id);
     }
-}
-addProduct = async (product) => {
-    const products = await this.readProducts();
-    const id = products.length ? products[products.length - 1].id + 1 : 1;
-    product.id = id; // add id to product
-    products.push(product);
-    await this.writeProducts(products);
-}
-
-updateProduct = async (id, updatedProduct) => {
-    const products = await this.readProducts();
-    const index = products.findIndex(product => product.id === id);
-
-    if (index !== -1) {
-        updatedProduct.id = products[index].id; // keep the original id
-        products[index] = updatedProduct;
-        await this.writeProducts(products);
-    }
-}
-
-deleteProduct = async (id) => {
-    const products = await this.readProducts();
-    const updatedProducts = products.filter(product => product.id !== id);
-    await this.writeProducts(updatedProducts);
 }
 
 module.exports = ProductManager;

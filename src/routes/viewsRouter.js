@@ -38,5 +38,16 @@ router.initializeWebSocket = function (server) {
     });
   });
 };
+productManager.on('productCreated', (product) => {
+  if (io) {
+      io.emit('productCreated', product);
+  }
+});
+
+productManager.on('productDeleted', (productId) => {
+  if (io) {
+      io.emit('productDeleted', productId);
+  }
+});
 
 module.exports = router;
