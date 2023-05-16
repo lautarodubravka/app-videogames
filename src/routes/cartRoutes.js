@@ -8,10 +8,10 @@ router.post('/', async (req, res) => {
     res.json(cart);
 });
 
-// Obtener un carrito por ID
+// Obtener un carrito por ID y renderizar la vista del carrito
 router.get('/:cid', async (req, res) => {
     const cart = await CartManager.getCartById(req.params.cid);
-    res.json(cart);
+    res.render('cart', { cart });
 });
 
 // Añadir un producto a un carrito

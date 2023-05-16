@@ -1,0 +1,18 @@
+<h1>Productos</h1>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <!-- Más columnas para más campos de producto -->
+        <th></th>
+    </tr>
+    {{#each products}}
+    <tr>
+        <td>{{this.title}}</td>
+        <td>{{this.price}}</td>
+        <!-- Más celdas para más campos de producto -->
+        <td><a href="/products/{{this._id}}">Ver Detalles</a></td>
+    </tr>
+    {{/each}}
+</table>

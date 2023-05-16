@@ -13,8 +13,8 @@ app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
 // Rutas de productos y carritos
-app.use('/api/products', productRoutes);
-app.use('/api/carts', cartRoutes);
+app.use('/products', productRoutes);
+app.use('/carts', cartRoutes);
 
 // Crear el servidor HTTP
 const server = http.createServer(app);
