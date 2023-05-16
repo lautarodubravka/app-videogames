@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+require('dotenv').config();
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const productRoutes = require('../routes/productRoutes');
@@ -20,7 +21,7 @@ app.use('/carts', cartRoutes);
 const server = http.createServer(app);
 
 // Conexión a la base de datos MongoDB
-mongoose.connect('mongodb+srv://lautarodubravka:I1hoszNfQu74N0e5@app-videogames.bmtnzim.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
