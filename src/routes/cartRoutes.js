@@ -2,18 +2,39 @@ const express = require('express');
 const CartManager = require('../dao/db/CartManager');
 const router = express.Router();
 
+// Añadir un nuevo carrito
 router.post('/', async (req, res) => {
-    const cart = await cartManager.addCart();
+    const cart = await CartManager.addCart();
     res.json(cart);
 });
 
+// Obtener un carrito por ID
 router.get('/:cid', async (req, res) => {
-    const cart = await cartManager.getCartById(Number(req.params.cid));
+    const cart = await CartManager.getCartById(req.params.cid);
     res.json(cart);
 });
 
+// Añadir un producto a un carrito
 router.post('/:cid/products/:pid', async (req, res) => {
-    const cart = await cartManager.addProductToCart(Number(req.params.cid), Number(req.params.pid));
+    const cart = await CartManager.addProductToCart(req.params.cid, req.params.pid);
+    res.json(cart);
+});
+
+// Eliminar un producto de un carrito
+router.delete('/:cid/products/:pid', async (req, res) => {
+    const cart = await CartManager.removeProductFromCart(req.params.cid, req.params.pid);
+    res.json(cart);
+});
+
+// Actualizar la cantidad de un producto en un carrito
+router.put('/:cid/products/:pid', async (req, res) => {
+    const cart = await CartManager.updateProductQuantity(req.params.cid, req.params.pid, req.body.quantity);
+    res.json(cart);
+});
+
+// Eliminar todos los productos de un carrito
+router.delete('/:cid', async (req, res) => {
+    const cart = await CartManager.clearCart(req.params.cid);
     res.json(cart);
 });
 

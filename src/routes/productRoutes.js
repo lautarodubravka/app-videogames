@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const ProductManager = require('../dao/db/ProductManager');
+const productManager = new ProductManager();
 
 // Ruta para obtener todos los productos
 router.get('/', async (req, res) => {
-    const products = await productManager.getProducts();
-    res.json(products);
+    const { limit, page, query, sort } = req.query;
+    try {
+        const products = await productManager.getProducts({ limit, page, query, sort });
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // Ruta para obtener un producto por ID
