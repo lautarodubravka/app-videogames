@@ -1,0 +1,12 @@
+<h1>Carrito</h1>
+
+<div id="cart">
+  {{#each cartProducts}}
+    <div class="cart-item">
+      <h2>{{this.name}}</h2>
+      <p>{{this.description}}</p>
+      <p>{{this.price}}</p>
+      <button data-id="{{this._id}}" class="remove-from-cart">Eliminar</button>
+    </div>
+  {{/each}}
+</div>

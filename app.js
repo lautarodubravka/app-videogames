@@ -10,9 +10,14 @@ const socketManager = require('./src/DAO/utils/socketManager');
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public')); // Moved here
 
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
+
+app.get('/', (req, res) => {
+  res.send('Bienvenido a mi aplicación!');
+});
 
 // Rutas de productos y carritos
 app.use('/products', productRoutes);
