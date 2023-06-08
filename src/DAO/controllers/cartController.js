@@ -7,21 +7,31 @@ exports.getAllCarts = async (req, res) => {
 };
 
 exports.getCartById = async (req, res) => {
-    const cart = await cartManager.getCartById(req.params.id);
+    const cart = await cartManager.getCartById(req.params.cid);
     res.json(cart);
 };
 
 exports.createCart = async (req, res) => {
-    await cartManager.addCart(req.body);
-    res.status(201).send();
+    const newCart = await cartManager.addCart();
+    res.status(201).json(newCart);
 };
 
-exports.updateCart = async (req, res) => {
-    await cartManager.updateCart(req.params.id, req.body);
-    res.status(200).send();
+exports.addProductToCart = async (req, res) => {
+    const cart = await cartManager.addProductToCart(req.params.cid, req.params.pid, req.body.quantity);
+    res.json(cart);
 };
 
-exports.deleteCart = async (req, res) => {
-    await cartManager.deleteCart(req.params.id);
-    res.status(200).send();
+exports.removeProductFromCart = async (req, res) => {
+    const cart = await cartManager.removeProductFromCart(req.params.cid, req.params.pid);
+    res.json(cart);
+};
+
+exports.updateProductQuantity = async (req, res) => {
+    const cart = await cartManager.updateProductQuantity(req.params.cid, req.params.pid, req.body.quantity);
+    res.json(cart);
+};
+
+exports.clearCart = async (req, res) => {
+    const cart = await cartManager.clearCart(req.params.cid);
+    res.json(cart);
 };

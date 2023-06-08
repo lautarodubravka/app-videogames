@@ -1,5 +1,4 @@
 const express = require('express');
-const CartManager = require('../Mongo/CartManager.mongo');
 const cartController = require('../controllers/cartController');
 const router = express.Router();
 
@@ -7,39 +6,21 @@ const router = express.Router();
 router.get('/', cartController.getAllCarts);
 
 // Obtener un carrito por ID y renderizar la vista del carrito
-router.get('/:cid', async (req, res) => {
-    const cart = await CartManager.getCartById(req.params.cid);
-    res.render('cart', { cart });
-});
+router.get('/:cid', cartController.getCartById);
 
 // Añadir un nuevo carrito
-router.post('/', async (req, res) => {
-    const cart = await CartManager.addCart();
-    res.json(cart);
-});
+router.post('/', cartController.createCart);
 
 // Añadir un producto a un carrito
-router.post('/:cid/products/:pid', async (req, res) => {
-    const cart = await CartManager.addProductToCart(req.params.cid, req.params.pid);
-    res.json(cart);
-});
+router.post('/:cid/products/:pid', cartController.addProductToCart);
 
 // Eliminar un producto de un carrito
-router.delete('/:cid/products/:pid', async (req, res) => {
-    const cart = await CartManager.removeProductFromCart(req.params.cid, req.params.pid);
-    res.json(cart);
-});
+router.delete('/:cid/products/:pid', cartController.removeProductFromCart);
 
 // Actualizar la cantidad de un producto en un carrito
-router.put('/:cid/products/:pid', async (req, res) => {
-    const cart = await CartManager.updateProductQuantity(req.params.cid, req.params.pid, req.body.quantity);
-    res.json(cart);
-});
+router.put('/:cid/products/:pid', cartController.updateProductQuantity);
 
 // Eliminar todos los productos de un carrito
-router.delete('/:cid', async (req, res) => {
-    const cart = await CartManager.clearCart(req.params.cid);
-    res.json(cart);
-});
+router.delete('/:cid', cartController.clearCart);
 
 module.exports = router;

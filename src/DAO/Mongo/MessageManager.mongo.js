@@ -1,25 +1,50 @@
-const Message = require('../models/Message');
+const Message = require('../models/Message.model');
 
 class MessageManager {
     async getMessages() {
-        return await Message.find({});
+        try {
+            return await Message.find({});
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 
     async getMessageById(id) {
-        return await Message.findById(id);
+        try {
+            return await Message.findById(id);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 
     async addMessage(message) {
-        const newMessage = new Message(message);
-        await newMessage.save();
+        try {
+            const newMessage = new Message(message);
+            await newMessage.save();
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 
     async updateMessage(id, updatedMessage) {
-        await Message.findByIdAndUpdate(id, updatedMessage);
+        try {
+            await Message.findByIdAndUpdate(id, updatedMessage);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 
     async deleteMessage(id) {
-        await Message.findByIdAndDelete(id);
+        try {
+            await Message.findByIdAndDelete(id);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }
 
