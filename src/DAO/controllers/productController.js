@@ -30,7 +30,7 @@ exports.getProducts = async (req, res) => {
     }
 
     const products = await productManager.getProducts(query, limit, page, sortQuery);
-    res.json(products);
+    res.render('products', { products: products });
   } catch (err) {
     res.status(500).send({ message: 'An error occurred while retrieving products.' });
   }

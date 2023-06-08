@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
@@ -10,10 +11,12 @@ const socketManager = require('./src/DAO/utils/socketManager');
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public')); // Moved here
+app.use(express.static('public'));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'src', 'DAO', 'views'));
 
 app.get('/', (req, res) => {
   res.send('Bienvenido a mi aplicación!');
