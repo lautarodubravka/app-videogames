@@ -21,8 +21,8 @@ exports.getMessageById = async (req, res) => {
 
 exports.createMessage = async (req, res) => {
     try {
-        await messageManager.addMessage(req.body);
-        res.status(201).send();
+        const newMessage = await messageManager.addMessage(req.body);
+        res.status(201).json(newMessage);
     } catch (err) {
         res.status(500).send({ message: 'An error occurred while creating the message.' });
     }

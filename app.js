@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const productRoutes = require('./src/DAO/routes/product.route');
 const cartRoutes = require('./src/DAO/routes/cart.route');
+const messageRoutes = require('./src/DAO/routes/message.route'); 
 const socketManager = require('./src/DAO/utils/socketManager');
 
 const app = express();
@@ -16,6 +17,8 @@ app.set('view engine', 'handlebars');
 // Rutas de productos y carritos
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
+// Rutas del mensaje
+app.use('/messages', messageRoutes);
 
 // Servidor HTTP
 const server = http.createServer(app);

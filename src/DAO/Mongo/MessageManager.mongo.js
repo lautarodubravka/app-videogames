@@ -22,12 +22,13 @@ class MessageManager {
     async addMessage(message) {
         try {
             const newMessage = new Message(message);
-            await newMessage.save();
+            const savedMessage = await newMessage.save();
+            return savedMessage;
         } catch (err) {
             console.error(err);
             throw err;
         }
-    }
+    }    
 
     async updateMessage(id, updatedMessage) {
         try {

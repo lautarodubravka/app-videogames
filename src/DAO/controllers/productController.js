@@ -10,13 +10,29 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getAllProducts = async (req, res) => {
-  const { limit, page, query, sort } = req.query;
+exports.getProducts = async (req, res) => {
   try {
-    const products = await productManager.getProducts(query, limit, page, sort);
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    let query;
+    try {
+      query = JSON.parse(req.query.query);
+    } catch (error) {
+      query = req.query.query || {};
+    }
+    const sort = req.query.sort;
+
+    let sortQuery = {};
+    if(sort === 'asc') {
+        sortQuery = { price: 1 };
+    } else if(sort === 'desc') {
+        sortQuery = { price: -1 };
+    }
+
+    const products = await productManager.getProducts(query, limit, page, sortQuery);
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: 'An error occurred while retrieving products.' });
   }
 };
 

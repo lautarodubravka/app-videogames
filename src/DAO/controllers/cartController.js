@@ -1,5 +1,6 @@
 const CartManager = require('../Mongo/CartManager.mongo');
 const cartManager = new CartManager();
+const mongoose = require('mongoose');
 
 exports.getAllCarts = async (req, res) => {
     const carts = await cartManager.getCarts();
@@ -21,9 +22,18 @@ exports.createCart = async (req, res) => {
 };
 
 exports.addProductToCart = async (req, res) => {
-    const cart = await cartManager.addProductToCart(req.params.cid, req.params.pid, req.body.quantity);
-    res.json(cart);
-};
+    try {
+      const cart = await cartManager.addProductToCart(req.params.cid, req.params.pid, req.body.quantity);
+      res.json(cart);
+    } catch (error) {
+      if (error instanceof mongoose.Error.CastError) {
+        res.status(404).send({ message: "Carrito o producto no encontrado." });
+      } else {
+        res.status(500).send({ message: error.message });
+      }
+    }
+  };
+  
 
 exports.removeProductFromCart = async (req, res) => {
     const cart = await cartManager.removeProductFromCart(req.params.cid, req.params.pid);

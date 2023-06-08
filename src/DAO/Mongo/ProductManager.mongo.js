@@ -1,6 +1,5 @@
 const { EventEmitter } = require('events');
 const Product = require('../models/Product.model');
-const mongoose = require('mongoose');
 
 class ProductManager extends EventEmitter {
   constructor() {
@@ -13,35 +12,35 @@ class ProductManager extends EventEmitter {
     this.emit('productCreated', newProduct);
   }
 
-  getProducts = async (query, limit, page, sort) => {
-    const options = {
-      page: parseInt(page, 10) || 1,
-      limit: parseInt(limit, 10) || 10,
-      sort: sort === 'desc' ? '-price' : 'price'
-    };
+  getProducts = async (query, limit, page, sortQuery) => {
+    try {
+        const products = await Product.find(query)
+                                      .limit(limit)
+                                      .skip((page - 1) * limit)
+                                      .sort(sortQuery);
 
-    const searchQuery = {};
-    if (query.category) {
-      searchQuery.category = query.category;
-    }
-    if (query.available) {
-      searchQuery.available = query.available;
-    }
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / limit);
+        const hasNextPage = page < totalPages;
+        const hasPrevPage = page > 1;
 
-    const products = await Product.paginate(searchQuery, options);
-    
-    return {
-      status: 'success',
-      payload: products.docs,
-      totalPages: products.totalPages,
-      prevPage: products.prevPage,
-      nextPage: products.nextPage,
-      hasPrevPage: products.hasPrevPage,
-      hasNextPage: products.hasNextPage,
-      prevLink: products.hasPrevPage ? `/api/products?page=${products.prevPage}` : null,
-      nextLink: products.hasNextPage ? `/api/products?page=${products.nextPage}` : null,
+        return {
+          status: 'success',
+          payload: products,
+          totalPages: totalPages,
+          page: page,
+          prevPage: hasPrevPage ? page - 1 : null,
+          nextPage: hasNextPage ? page + 1 : null,
+          hasPrevPage: hasPrevPage,
+          hasNextPage: hasNextPage,
+          prevLink: hasPrevPage ? `/products?page=${page - 1}` : null,
+          nextLink: hasNextPage ? `/products?page=${page + 1}` : null
+        };
+    } catch (err) {
+        console.error(err);
+        throw err;
     }
-  }
+}
 
   getProductById = async (id) => {
     return await Product.findById(id);
