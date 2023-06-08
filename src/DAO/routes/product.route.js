@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ProductManager = require('../dao/db/ProductManager');
+const ProductManager = require('../Mongo/ProductManager.mongo');
 const productManager = new ProductManager();
 
 // Ruta para obtener todos los productos

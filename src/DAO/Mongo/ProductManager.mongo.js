@@ -1,5 +1,5 @@
 const { EventEmitter } = require('events');
-const Product = require('../models/Product');
+const Product = require('../models/Product.model');
 const mongoose = require('mongoose');
 
 class ProductManager extends EventEmitter {

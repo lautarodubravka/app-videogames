@@ -1,4 +1,4 @@
-const MessageManager = require('../../dao/db/MessageManager');
+const MessageManager = require('../Mongo/MessageManager.mongo');
 const messageManager = new MessageManager();
 
 exports.getAllMessages = async (req, res) => {

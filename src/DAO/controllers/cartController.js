@@ -1,4 +1,4 @@
-const CartManager = require('../../dao/db/CartManager');
+const CartManager = require('../Mongo/CartManager.mongo');
 const cartManager = new CartManager();
 
 exports.getAllCarts = async (req, res) => {

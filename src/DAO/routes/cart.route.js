@@ -1,17 +1,21 @@
 const express = require('express');
-const CartManager = require('../dao/db/CartManager');
+const CartManager = require('../Mongo/CartManager.mongo');
+const cartController = require('../controllers/cartController');
 const router = express.Router();
 
-// Añadir un nuevo carrito
-router.post('/', async (req, res) => {
-    const cart = await CartManager.addCart();
-    res.json(cart);
-});
+// Obtener todos los carritos
+router.get('/', cartController.getAllCarts);
 
 // Obtener un carrito por ID y renderizar la vista del carrito
 router.get('/:cid', async (req, res) => {
     const cart = await CartManager.getCartById(req.params.cid);
     res.render('cart', { cart });
+});
+
+// Añadir un nuevo carrito
+router.post('/', async (req, res) => {
+    const cart = await CartManager.addCart();
+    res.json(cart);
 });
 
 // Añadir un producto a un carrito

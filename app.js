@@ -3,9 +3,9 @@ const http = require('http');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
-const productRoutes = require('../routes/productRoutes');
-const cartRoutes = require('../routes/cartRoutes');
-const socketManager = require('../utils/socketManager');
+const productRoutes = require('./src/DAO/routes/product.route');
+const cartRoutes = require('./src/DAO/routes/cart.route');
+const socketManager = require('./src/DAO/utils/socketManager');
 
 const app = express();
 app.use(express.json());
@@ -17,7 +17,7 @@ app.set('view engine', 'handlebars');
 app.use('/products', productRoutes);
 app.use('/carts', cartRoutes);
 
-// Crear el servidor HTTP
+// Servidor HTTP
 const server = http.createServer(app);
 
 // Conexión a la base de datos MongoDB
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Inicializar el gestor de sockets
 socketManager.initialize(server);
 
-// Puerto de escucha
+// Puerto
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
   console.log(`Servidor ejecutándose en el puerto ${port}`);
