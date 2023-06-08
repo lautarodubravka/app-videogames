@@ -10,11 +10,11 @@ class CartManager {
     return await Cart.findById(id).populate('products.product');
   }
 
-  async addCart() {
-    const newCart = new Cart();
+  async addCart(userId) {
+    const newCart = new Cart({userId: userId});
     await newCart.save();
     return newCart;
-  }
+}
 
   async addProductToCart(cartId, productId, quantity = 1) {
     const cart = await Cart.findById(cartId);
@@ -44,6 +44,16 @@ class CartManager {
     await cart.save();
     return cart;
   }
+  
+  async closeCart(cartId) {
+    const cart = await Cart.findById(cartId);
+    if (!cart.active) {
+        throw new Error("El carrito ya está cerrado.");
+    }
+    cart.active = false;
+    await cart.save();
+    return cart;
+}
 }
 
 module.exports = CartManager;

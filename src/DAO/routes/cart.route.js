@@ -23,4 +23,8 @@ router.put('/:cid/products/:pid', cartController.updateProductQuantity);
 // Eliminar todos los productos de un carrito
 router.delete('/:cid', cartController.clearCart);
 
+// Cerrar un carrito existente
+
+router.put('/:cid/close', cartController.closeCart);
+
 module.exports = router;

@@ -12,8 +12,12 @@ exports.getCartById = async (req, res) => {
 };
 
 exports.createCart = async (req, res) => {
-    const newCart = await cartManager.addCart();
-    res.status(201).json(newCart);
+    try {
+        const newCart = await cartManager.addCart(req.body.userId);
+        res.status(201).json(newCart);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 };
 
 exports.addProductToCart = async (req, res) => {
@@ -34,4 +38,13 @@ exports.updateProductQuantity = async (req, res) => {
 exports.clearCart = async (req, res) => {
     const cart = await cartManager.clearCart(req.params.cid);
     res.json(cart);
+};
+
+exports.closeCart = async (req, res) => {
+    try {
+        const closedCart = await cartManager.closeCart(req.params.cid);
+        res.status(200).json(closedCart);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 };
