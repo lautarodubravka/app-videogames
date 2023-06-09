@@ -4,6 +4,11 @@
 </head>
 <body>
   <h1>VIDEOJUEGOS DIGITALES PC, PS5, XBOX</h1>
+  {{#ifEquals user.role 'admin'}}
+    <h1>Bienvenido Administrador {{user.email}}</h1>
+  {{else}}
+    <h1>Bienvenido Usuario {{user.email}}</h1>
+  {{/ifEquals}}
   <div id="products">
     {{#each products}}
       <div class="product-card">
