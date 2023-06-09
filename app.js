@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser')
 const http = require('http');
 const path = require('path');
 require('dotenv').config();
@@ -13,6 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
+//cookies
+app.use(cookieParser())
 
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
