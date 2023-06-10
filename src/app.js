@@ -26,6 +26,10 @@ const hbs = exphbs.create({
       return JSON.stringify(context)
     },
   },
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  },
 })
 
 app.engine('handlebars', hbs.engine)
