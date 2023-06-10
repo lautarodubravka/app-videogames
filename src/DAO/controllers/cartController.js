@@ -14,7 +14,7 @@ exports.getCartById = async (req, res) => {
 
 exports.createCart = async (req, res) => {
     try {
-        const newCart = await cartManager.addCart(req.body.userId);
+        const newCart = await cartManager.addCart(req.body);
         res.status(201).json(newCart);
     } catch (error) {
         res.status(500).send({ message: error.message });

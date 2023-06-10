@@ -1,17 +1,28 @@
-const express = require('express');
-const UserController = require('../controllers/userController');
-const router = express.Router();
+/*const { router } = require('express');
+const userController = require('../controllers/userController');
+
+router.get('/', async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.log(error)
+  }
+  let users = await UserModel.find()
+
+
+  res.send('HOLA');
+})
+
+//POST
+router.post('/', (req, res) => {
+  let user = req.body
+})
 
 router.get('/register', (req, res) => {
-    res.render('register');
+  res.render('register');
 });
 
-router.get('/login', (req, res) => {
-    res.render('login');
-});
-
-router.post('/register', UserController.register);
-
-router.post('/login', UserController.login);
+router.post('/register', userController.register);
 
 module.exports = router;
+*/

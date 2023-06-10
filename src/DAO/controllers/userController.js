@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+/*const User = require('../models/user.model');
 
 exports.register = async (req, res) => {
   const { email, password } = req.body;
@@ -20,4 +20,6 @@ exports.login = async (req, res) => {
   req.session.role = user.role;
   res.redirect('/products');
 };
+
+*/
 

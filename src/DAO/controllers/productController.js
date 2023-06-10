@@ -29,8 +29,8 @@ exports.getProducts = async (req, res) => {
         sortQuery = { price: -1 };
     }
 
-    const products = await productManager.getProducts(query, limit, page, sortQuery);
-    res.render('products', { products: products });
+    const products = await productManager.getProducts(query, limit, page, sortQuery); 
+    res.render('products', { products: products });    
   } catch (err) {
     res.status(500).send({ message: 'An error occurred while retrieving products.' });
   }

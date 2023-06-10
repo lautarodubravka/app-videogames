@@ -1,24 +1,12 @@
-<html>
-<head>
-  <link rel="stylesheet" type="text/css" href="/public/styles.css">
-</head>
-<body>
-  <h1>VIDEOJUEGOS DIGITALES PC, PS5, XBOX</h1>
-  {{#ifEquals user.role 'admin'}}
-    <h1>Bienvenido Administrador {{user.email}}</h1>
-  {{else}}
-    <h1>Bienvenido Usuario {{user.email}}</h1>
-  {{/ifEquals}}
-  <div id="products">
-    {{#each products}}
-      <div class="product-card">
-        <h2>{{this.name}}</h2>
-        <p>{{this.description}}</p>
-        <p>{{this.price}}</p>
-        <button data-id="{{this._id}}" class="add-to-cart">Agregar al carrito</button>
-      </div>
-    {{/each}}
-  </div>
-  <script src="/js/cart.js"></script>
-</body>
-</html>
+<h1>VIDEOJUEGOS DIGITALES PC, PS5, XBOX</h1>
+<div id="products">
+  {{#each products}}
+    <div class="product-card">
+      <h2>{{this.title}}</h2>
+      <p>{{this.description}}</p>
+      <p>{{this.price}}</p>
+      <button data-id="{{this._id}}" class="add-to-cart">Agregar al carrito</button>
+    </div>
+  {{/each}}
+</div>
+<script src="/js/Cart.js"></script>
